@@ -314,6 +314,10 @@ function dismissSplash() {
         splash.classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
         initForm();
+        spawnPageBubbles();
+        initScrollAnimations();
+        // Start narration tour
+        setTimeout(() => startNarrationTour(), 1000);
       }, 600);
     }, 800);
   });
@@ -626,16 +630,63 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 600);
   }
 
-  // Start narration tour after splash dismisses (triggered from dismissSplash)
-  // Hook into the existing splash dismiss
-  const origDismiss = window.dismissSplash;
-  if (origDismiss) {
-    window.dismissSplash = function() {
-      origDismiss();
-      // Start narration after splash animations complete
-      setTimeout(() => {
-        if (audio.enabled) startNarrationTour();
-      }, 1500);
-    };
-  }
 });
+
+/* ---- Floating Page Bubbles ---- */
+function spawnPageBubbles() {
+  // Create a persistent bubble container
+  const container = document.createElement('div');
+  container.id = 'pageBubbles';
+  container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden';
+  document.body.appendChild(container);
+
+  function createBubble() {
+    const b = document.createElement('div');
+    const size = Math.random() * 30 + 10;
+    b.style.cssText = 'position:absolute;border-radius:50%;'
+      + 'background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(74,140,42,0.08) 40%, transparent);'
+      + 'border:1px solid rgba(74,140,42,0.1);'
+      + 'width:' + size + 'px;height:' + size + 'px;'
+      + 'left:' + (Math.random() * 100) + '%;'
+      + 'bottom:-' + size + 'px;'
+      + 'animation:pageBubbleFloat ' + (Math.random() * 8 + 6) + 's ease-out forwards;'
+      + 'opacity:0;';
+    container.appendChild(b);
+    b.addEventListener('animationend', () => b.remove());
+  }
+
+  // Spawn bubbles periodically
+  setInterval(createBubble, 800);
+  // Initial burst
+  for (let i = 0; i < 8; i++) setTimeout(createBubble, i * 200);
+}
+
+/* ---- Scroll Animations (Fade-in sections) ---- */
+function initScrollAnimations() {
+  // Add reveal class to all sections
+  const sections = document.querySelectorAll('.hero, .whats-included, .how-it-works, .plans, .property-manager, .consultation, .faq');
+  sections.forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(30px)';
+    s.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Reveal hero immediately
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    hero.style.opacity = '1';
+    hero.style.transform = 'translateY(0)';
+  }
+}

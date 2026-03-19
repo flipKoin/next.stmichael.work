@@ -1290,3 +1290,14 @@ a:hover { color: var(--green-dark); }
     display: none;
   }
 }
+
+/* ============================================================
+   PAGE BUBBLES (floating background)
+   ============================================================ */
+@keyframes pageBubbleFloat {
+  0%   { transform: translateY(0) scale(0.3); opacity: 0; }
+  10%  { opacity: 0.4; transform: translateY(-5vh) scale(1); }
+  50%  { opacity: 0.25; transform: translateY(-50vh) translateX(20px) scale(1.05); }
+  80%  { opacity: 0.1; }
+  100% { transform: translateY(-110vh) translateX(-10px) scale(0.6); opacity: 0; }
+}
