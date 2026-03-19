@@ -1,0 +1,36 @@
+# ============================================================
+# ST. MICHAEL CLEANING — SUBSCRIPTION SITE
+# .htaccess
+# ============================================================
+
+# Disable directory listing
+Options -Indexes
+
+# Protect submissions data file
+<FilesMatch "^submissions\.jsonl$">
+    Require all denied
+</FilesMatch>
+
+# No-cache headers for HTML, CSS, JS, PHP
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|css|js|php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # Cache audio and images (7 days)
+    <FilesMatch "\.(mp3|png|jpg|jpeg|gif|svg|ico)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+</IfModule>
+
+# UTF-8 encoding
+AddDefaultCharset UTF-8
+
+# MIME types
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType audio/mpeg .mp3
+</IfModule>

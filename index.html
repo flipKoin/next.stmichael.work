@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>St. Michael Cleaning | Subscription Plans — Your Home, Always Clean</title>
+  <meta name="description" content="Subscribe to weekly, bi-weekly, or monthly professional cleaning. Same team every visit, loyalty rewards, and flexible scheduling. Starting at $150/visit.">
+  <link rel="icon" type="image/png" href="logo-transparent.png?v=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+
+  <!-- ===================== SPLASH SCREEN ===================== -->
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <img src="logo-white.png?v=1" alt="St. Michael Cleaning" class="splash-logo">
+      <h1 class="splash-title">St. Michael Cleaning</h1>
+      <p class="splash-sub">Subscription Cleaning Service</p>
+      <p class="splash-tagline">Your Home, Always Clean.</p>
+      <button id="splashBtn" class="btn-start" onclick="dismissSplash()">
+        <span>Start Here</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+    <div class="splash-story" id="splashStory">
+      <div class="story-logo-wrap" id="storyLogoWrap">
+        <img src="logo-white.png?v=1" alt="" class="story-logo" id="storyLogo">
+        <div class="story-glow ring1"></div>
+        <div class="story-glow ring2"></div>
+      </div>
+      <p class="story-text" id="storyText"></p>
+    </div>
+    <div class="splash-suds" id="splashSuds"></div>
+    <div class="splash-particles" id="particles"></div>
+  </div>
+
+  <audio id="jingle" preload="auto"><source src="audio/StMichael.mp3" type="audio/mpeg"></audio>
+
+  <!-- ===================== MAIN SITE ===================== -->
+  <div id="app" class="app hidden">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="header-brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <img src="logo-transparent.png?v=1" alt="Logo" class="header-logo">
+          <div>
+            <span class="header-name">St. Michael Cleaning</span>
+            <span class="header-sub">Subscriptions</span>
+          </div>
+        </div>
+        <nav class="header-nav">
+          <a href="#plans">Plans</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#faq">FAQ</a>
+          <a href="#consultation" class="nav-cta">Get Started</a>
+        </nav>
+        <button id="muteBtn" onclick="toggleMute()" class="mute-btn" title="Toggle sound">&#128266;</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <h1>Your Home, Always Clean</h1>
+        <p>Professional cleaning on your schedule. Choose a plan, and we handle the rest — same trusted team, every visit.</p>
+        <a href="#whats-included" class="btn btn-hero">Discover What We Do</a>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </section>
+
+    <!-- What's Included -->
+    <section class="whats-included" id="whats-included" data-narrate="what-we-do">
+      <div class="section-inner">
+        <h2>What's Included</h2>
+        <p class="section-desc">Every subscription includes our full standard cleaning service — no hidden extras.</p>
+        <div class="included-grid">
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Kitchen, bathrooms &amp; living areas</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Same team every visit</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Before &amp; after photos</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Branded email confirmations</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Bubble loyalty program — every 7th cleaning free</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Scratch &amp; Win rewards</span>
+          </div>
+          <div class="included-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Flexible rescheduling</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works" data-narrate="why-subscribe">
+      <div class="section-inner">
+        <h2>How It Works</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-icon-wrap">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <h3>Choose Your Plan</h3>
+            <p>Pick weekly, bi-weekly, or monthly cleaning — whatever fits your lifestyle.</p>
+          </div>
+          <div class="step-connector" aria-hidden="true">
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><line x1="0" y1="12" x2="36" y2="12"/><polyline points="30 6 36 12 30 18"/></svg>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-icon-wrap">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3>We Clean on Schedule</h3>
+            <p>Your dedicated team arrives on your scheduled day — consistent, reliable, every time.</p>
+          </div>
+          <div class="step-connector" aria-hidden="true">
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="none" stroke="var(--green-mid)" stroke-width="2" stroke-linecap="round"><line x1="0" y1="12" x2="36" y2="12"/><polyline points="30 6 36 12 30 18"/></svg>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-icon-wrap">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <h3>Relax, It's Handled</h3>
+            <p>Come home to a spotless space. No reminders, no hassle — just clean.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subscription Plans -->
+    <section class="plans" id="plans">
+      <div class="section-inner">
+        <h2>Choose Your Plan</h2>
+        <p class="section-desc">More frequent cleaning means a lower per-visit cost. All plans include the same thorough, professional service.</p>
+        <div class="plans-grid">
+
+          <div class="plan-card">
+            <div class="plan-badge">Best Value</div>
+            <h3>Weekly</h3>
+            <div class="plan-price">
+              <span class="plan-amount">$150</span>
+              <span class="plan-period">starting at / visit</span>
+            </div>
+            <ul class="plan-features">
+              <li>Kitchen, bathrooms, living areas</li>
+              <li>Same dedicated team every visit</li>
+              <li>Before &amp; after photos</li>
+              <li>Bubble loyalty program</li>
+              <li>Flexible rescheduling</li>
+            </ul>
+            <button class="btn btn-plan" data-plan="Weekly" onclick="selectPlan('Weekly')">Subscribe</button>
+          </div>
+
+          <div class="plan-card popular">
+            <div class="plan-badge popular-badge">Most Popular</div>
+            <h3>Bi-Weekly</h3>
+            <div class="plan-price">
+              <span class="plan-amount">$200</span>
+              <span class="plan-period">starting at / visit</span>
+            </div>
+            <ul class="plan-features">
+              <li>Kitchen, bathrooms, living areas</li>
+              <li>Same dedicated team every visit</li>
+              <li>Before &amp; after photos</li>
+              <li>Bubble loyalty program</li>
+              <li>Flexible rescheduling</li>
+            </ul>
+            <button class="btn btn-plan" data-plan="Bi-Weekly" onclick="selectPlan('Bi-Weekly')">Subscribe</button>
+          </div>
+
+          <div class="plan-card">
+            <div class="plan-badge">Most Flexible</div>
+            <h3>Monthly</h3>
+            <div class="plan-price">
+              <span class="plan-amount">$250</span>
+              <span class="plan-period">starting at / visit</span>
+            </div>
+            <ul class="plan-features">
+              <li>Kitchen, bathrooms, living areas</li>
+              <li>Same dedicated team every visit</li>
+              <li>Before &amp; after photos</li>
+              <li>Bubble loyalty program</li>
+              <li>Flexible rescheduling</li>
+            </ul>
+            <button class="btn btn-plan" data-plan="Monthly" onclick="selectPlan('Monthly')">Subscribe</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Property Manager Callout -->
+    <section class="property-manager" id="property-manager" data-narrate="property-managers">
+      <div class="section-inner">
+        <div class="pm-content">
+          <h2>Managing Multiple Properties?</h2>
+          <p>We make recurring cleaning simple for landlords, property managers, and portfolio owners.</p>
+          <ul class="pm-benefits">
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Dedicated cleaning team per property
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Volume pricing for portfolios
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Turnover cleanings on demand
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              One point of contact for all units
+            </li>
+          </ul>
+          <button class="btn btn-pm" onclick="selectPropertyManager()">Let's Talk</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consultation Form -->
+    <section class="consultation" id="consultation">
+      <div class="section-inner">
+        <h2>Book a Free Consultation</h2>
+        <p class="section-desc">Tell us about your space and we'll customize a plan. Final pricing is confirmed during the consultation based on your home size.</p>
+
+        <div id="formSuccess" class="form-success hidden">
+          <div class="success-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Thank you! We'll be in touch within 24 hours to discuss your plan.</h3>
+        </div>
+
+        <form id="consultForm" class="consult-form" novalidate>
+          <!-- Honeypot -->
+          <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="fullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="Jane Doe">
+              <span class="field-error" id="fullNameError"></span>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="jane@example.com">
+              <span class="field-error" id="emailError"></span>
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="(306) 555-1234">
+              <span class="field-error" id="phoneError"></span>
+            </div>
+            <div class="field">
+              <label for="street">Street Address <span class="req">*</span></label>
+              <input type="text" id="street" name="street" required autocomplete="address-line1" placeholder="123 Main Street">
+              <span class="field-error" id="streetError"></span>
+            </div>
+            <div class="field">
+              <label for="city">City <span class="req">*</span></label>
+              <input type="text" id="city" name="city" required autocomplete="address-level2" placeholder="Saskatoon">
+              <span class="field-error" id="cityError"></span>
+            </div>
+            <div class="field">
+              <label for="province">Province <span class="req">*</span></label>
+              <select id="province" name="province" required autocomplete="address-level1">
+                <option value="">Select...</option>
+                <option value="AB">Alberta</option>
+                <option value="BC">British Columbia</option>
+                <option value="MB">Manitoba</option>
+                <option value="NB">New Brunswick</option>
+                <option value="NL">Newfoundland and Labrador</option>
+                <option value="NS">Nova Scotia</option>
+                <option value="NT">Northwest Territories</option>
+                <option value="NU">Nunavut</option>
+                <option value="ON">Ontario</option>
+                <option value="PE">Prince Edward Island</option>
+                <option value="QC">Quebec</option>
+                <option value="SK" selected>Saskatchewan</option>
+                <option value="YT">Yukon</option>
+              </select>
+              <span class="field-error" id="provinceError"></span>
+            </div>
+            <div class="field">
+              <label for="postalCode">Postal Code <span class="req">*</span></label>
+              <input type="text" id="postalCode" name="postalCode" required autocomplete="postal-code" placeholder="S7K 1A1">
+              <span class="field-error" id="postalCodeError"></span>
+            </div>
+          </div>
+
+          <div class="plan-select">
+            <label class="field-label">Selected Plan <span class="req">*</span></label>
+            <div class="radio-group" id="planRadioGroup">
+              <label class="radio-card">
+                <input type="radio" name="plan" value="Weekly" required>
+                <span class="radio-label">Weekly</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="plan" value="Bi-Weekly">
+                <span class="radio-label">Bi-Weekly</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="plan" value="Monthly">
+                <span class="radio-label">Monthly</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="plan" value="Custom">
+                <span class="radio-label">Custom</span>
+              </label>
+            </div>
+            <span class="field-error" id="planError"></span>
+          </div>
+
+          <div class="field properties-field hidden" id="propertiesField">
+            <label for="numProperties">How many properties? <span class="req">*</span></label>
+            <input type="number" id="numProperties" name="numProperties" min="2" max="50" placeholder="e.g. 5">
+            <span class="field-error" id="numPropertiesError"></span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="startDate">Preferred Start Date <span class="req">*</span></label>
+              <input type="date" id="startDate" name="startDate" required>
+              <span class="field-error" id="startDateError"></span>
+            </div>
+            <div class="field full-width">
+              <label for="notes">Notes / Special Requests</label>
+              <textarea id="notes" name="notes" rows="3" placeholder="Access codes, pet info, allergies, special instructions..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-submit" id="submitBtn">
+            <span>Request Consultation</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="section-inner">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>How do subscription plans work?</summary>
+            <p>Choose a plan (weekly, bi-weekly, or monthly), book a free consultation, and we'll confirm pricing based on your home size. Once you're set up, your dedicated cleaning team arrives on schedule — no need to rebook each time.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I change my plan or skip a cleaning?</summary>
+            <p>Absolutely. You can upgrade, downgrade, or pause your plan at any time. Need to skip a week? Just let us know 48 hours in advance and we'll reschedule — no penalty.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What's included in a standard cleaning?</summary>
+            <p>Every visit covers your kitchen (appliance surfaces, counters, floors), bathrooms (toilet, sink, tub/shower, mirrors, floors), and living areas (dusting, vacuuming, floor washing). Extras like window washing, appliance deep cleaning, and closet interiors are available on request.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do I get the same cleaning team every time?</summary>
+            <p>Yes. We assign a dedicated team to your home and never share staff between clients. You'll see the same trusted professionals every visit.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How does the loyalty program work?</summary>
+            <p>Our Bubble Program rewards your loyalty — every 7th cleaning is completely FREE. We track your visits automatically, so there's nothing extra to do. You'll also receive Scratch &amp; Win reward cards with each booking.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you offer services for property managers?</summary>
+            <p>Yes! We provide dedicated cleaning teams per property, volume pricing for portfolios, and turnover cleanings on demand. One point of contact manages all your units. Use the "Let's Talk" button above to get started.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <img src="logo-white.png?v=1" alt="St. Michael Cleaning" class="footer-logo">
+        <p class="footer-brand">St. Michael Cleaning</p>
+        <p class="footer-tagline">Guaranteed High Quality, Thorough Service.</p>
+        <div class="footer-links">
+          <a href="https://stmichael.work">www.stmichael.work</a>
+          <span class="dot">&bull;</span>
+          <a href="https://corporate.stmichael.work">Corporate</a>
+          <span class="dot">&bull;</span>
+          <a href="https://stmichael.work/franchise.html">Franchise Opportunity</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>
