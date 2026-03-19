@@ -330,21 +330,19 @@ function dismissSplash() {
   audio.init();
   jingleSkipped = false;
 
-  // Double-tap logo to skip jingle
+  // Double-tap anywhere on splash to skip jingle
   let tapCount = 0;
-  const logo = splash.querySelector('.splash-logo') || splash.querySelector('img');
-  if (logo) {
-    logo.style.cursor = 'pointer';
-    logo.addEventListener('click', function onTap(e) {
-      e.stopPropagation();
-      tapCount++;
-      if (tapCount >= 2) {
-        logo.removeEventListener('click', onTap);
-        skipToPage();
-      }
-      setTimeout(() => { tapCount = 0; }, 500);
-    });
-  }
+  let tapTimer = null;
+  splash.addEventListener('click', function onTap() {
+    tapCount++;
+    if (tapCount >= 2) {
+      splash.removeEventListener('click', onTap);
+      skipToPage();
+      return;
+    }
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 600);
+  });
 
   jingle.volume = 0.5;
   jingle.play().catch(() => {});
@@ -609,7 +607,9 @@ const narrationQueue = [
   { audio: new Audio('audio/whatwedo.mp3?v=3'), target: 'whats-included' },
   { audio: new Audio('audio/whysubscribe.mp3?v=3'), target: 'how-it-works' },
   { audio: new Audio('audio/scrubbypts.mp3?v=3'), target: 'scrubbypts' },
-  { audio: new Audio('audio/plans.mp3?v=3'), target: 'plans' },
+  { audio: new Audio('audio/plan-weekly.mp3?v=1'), target: 'plan-weekly' },
+  { audio: new Audio('audio/plan-biweekly.mp3?v=1'), target: 'plan-biweekly' },
+  { audio: new Audio('audio/plan-monthly.mp3?v=1'), target: 'plan-monthly' },
   { audio: new Audio('audio/property.mp3?v=3'), target: 'property-manager' },
   { audio: new Audio('audio/cta.mp3?v=3'), target: 'consultation' },
 ];
