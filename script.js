@@ -307,19 +307,22 @@ function dismissSplash() {
     const storyEl = document.getElementById('splashStory');
     if (storyEl) storyEl.classList.remove('visible');
 
+    // Quick transition — no long pause
+    splash.classList.add('fade-out');
+    audio.enable();
     setTimeout(() => {
-      splash.classList.add('fade-out');
-      audio.enable();
-      setTimeout(() => {
-        splash.classList.add('hidden');
-        document.getElementById('app').classList.remove('hidden');
-        initForm();
-        spawnPageBubbles();
-        initScrollAnimations();
-        // Start narration tour
-        setTimeout(() => startNarrationTour(), 1000);
-      }, 600);
-    }, 800);
+      splash.classList.add('hidden');
+      const app = document.getElementById('app');
+      app.classList.remove('hidden');
+      app.style.opacity = '0';
+      app.style.transition = 'opacity 0.8s ease';
+      requestAnimationFrame(() => { app.style.opacity = '1'; });
+      initForm();
+      spawnPageBubbles();
+      initScrollAnimations();
+      // Start narration immediately
+      setTimeout(() => startNarrationTour(), 400);
+    }, 400);
   });
 }
 
@@ -546,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ---- Sequential Narration Tour (Global Scope) ---- */
 const bgMusic = new Audio('audio/StMichaelbg.mp3');
 bgMusic.loop = true;
-bgMusic.volume = 0.08;
+bgMusic.volume = 0.04;
 const popSound = new Audio('audio/pop.mp3');
 
 const narrationQueue = [
@@ -621,9 +624,9 @@ function playNextNarration() {
     item.audio.addEventListener('ended', function onEnd() {
       item.audio.removeEventListener('ended', onEnd);
       if (el) el.style.boxShadow = '';
-      setTimeout(() => playNextNarration(), 800);
+      setTimeout(() => playNextNarration(), 500);
     });
-  }, 800);
+  }, 500);
 }
 
 /* ---- Floating Page Bubbles ---- */
