@@ -541,96 +541,90 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ---- Sequential Narration Tour ---- */
-  const bgMusic = new Audio('audio/StMichaelbg.mp3');
-  bgMusic.loop = true;
-  bgMusic.volume = 0.08;
-  const popSound = new Audio('audio/pop.mp3');
-
-  // Ordered narration sequence — plays one after another
-  const narrationQueue = [
-    { audio: new Audio('audio/hero.mp3'), target: 'hero' },
-    { audio: new Audio('audio/whatwedo.mp3'), target: 'whats-included' },
-    { audio: new Audio('audio/whysubscribe.mp3'), target: 'how-it-works' },
-    { audio: new Audio('audio/plans.mp3'), target: 'plans' },
-    { audio: new Audio('audio/property.mp3'), target: 'property-manager' },
-    { audio: new Audio('audio/cta.mp3'), target: 'consultation' },
-  ];
-
-  let narrationIndex = -1;
-  let narrationRunning = false;
-
-  function playPop() {
-    if (!audio.enabled) return;
-    const p = popSound.cloneNode();
-    p.volume = 0.2 + Math.random() * 0.15;
-    p.playbackRate = 0.85 + Math.random() * 0.3;
-    p.play().catch(() => {});
-  }
-
-  function startNarrationTour() {
-    if (narrationRunning || !audio.enabled) return;
-    narrationRunning = true;
-    bgMusic.play().catch(() => {});
-    narrationIndex = -1;
-    playNextNarration();
-  }
-
-  function playNextNarration() {
-    narrationIndex++;
-    if (narrationIndex >= narrationQueue.length || !audio.enabled) {
-      // Tour complete — fade out bg music
-      narrationRunning = false;
-      let vol = bgMusic.volume;
-      const fade = setInterval(() => {
-        vol -= 0.01;
-        if (vol <= 0) {
-          clearInterval(fade);
-          bgMusic.pause();
-          bgMusic.currentTime = 0;
-        } else {
-          bgMusic.volume = vol;
-        }
-      }, 100);
-      return;
-    }
-
-    const item = narrationQueue[narrationIndex];
-    const el = document.getElementById(item.target);
-
-    // Scroll to section
-    if (el) {
-      playPop();
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Highlight current section
-      el.style.transition = 'box-shadow .5s ease';
-      el.style.boxShadow = '0 0 0 3px #4a8c2a, 0 6px 25px rgba(74,140,42,.15)';
-    }
-
-    // Clear previous section highlight
-    if (narrationIndex > 0) {
-      const prev = document.getElementById(narrationQueue[narrationIndex - 1].target);
-      if (prev) prev.style.boxShadow = '';
-    }
-
-    // Play narration after short delay for scroll
-    setTimeout(() => {
-      if (!audio.enabled) return;
-      item.audio.volume = 0.75;
-      item.audio.play().catch(() => {});
-
-      // When this narration ends, play the next
-      item.audio.addEventListener('ended', function onEnd() {
-        item.audio.removeEventListener('ended', onEnd);
-        // Clear highlight
-        if (el) el.style.boxShadow = '';
-        // Small pause between sections
-        setTimeout(() => playNextNarration(), 800);
-      });
-    }, 600);
-  }
-
 });
+
+/* ---- Sequential Narration Tour (Global Scope) ---- */
+const bgMusic = new Audio('audio/StMichaelbg.mp3');
+bgMusic.loop = true;
+bgMusic.volume = 0.08;
+const popSound = new Audio('audio/pop.mp3');
+
+const narrationQueue = [
+  { audio: new Audio('audio/hero.mp3'), target: 'hero' },
+  { audio: new Audio('audio/whatwedo.mp3'), target: 'whats-included' },
+  { audio: new Audio('audio/whysubscribe.mp3'), target: 'how-it-works' },
+  { audio: new Audio('audio/plans.mp3'), target: 'plans' },
+  { audio: new Audio('audio/property.mp3'), target: 'property-manager' },
+  { audio: new Audio('audio/cta.mp3'), target: 'consultation' },
+];
+
+let narrationIndex = -1;
+let narrationRunning = false;
+
+function playPop() {
+  if (!audio.enabled) return;
+  const p = popSound.cloneNode();
+  p.volume = 0.2 + Math.random() * 0.15;
+  p.playbackRate = 0.85 + Math.random() * 0.3;
+  p.play().catch(() => {});
+}
+
+function startNarrationTour() {
+  if (narrationRunning || !audio.enabled) return;
+  narrationRunning = true;
+  bgMusic.play().catch(() => {});
+  narrationIndex = -1;
+  playNextNarration();
+}
+
+function playNextNarration() {
+  narrationIndex++;
+  if (narrationIndex >= narrationQueue.length || !audio.enabled) {
+    narrationRunning = false;
+    let vol = bgMusic.volume;
+    const fade = setInterval(() => {
+      vol -= 0.01;
+      if (vol <= 0) {
+        clearInterval(fade);
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+      } else {
+        bgMusic.volume = vol;
+      }
+    }, 100);
+    return;
+  }
+
+  const item = narrationQueue[narrationIndex];
+  const el = document.getElementById(item.target);
+
+  // Make section visible first
+  if (el) {
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+    playPop();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.style.transition = 'box-shadow .5s ease, opacity 0.6s ease, transform 0.6s ease';
+    el.style.boxShadow = '0 0 0 3px #4a8c2a, 0 6px 25px rgba(74,140,42,.15)';
+  }
+
+  if (narrationIndex > 0) {
+    const prev = document.getElementById(narrationQueue[narrationIndex - 1].target);
+    if (prev) prev.style.boxShadow = '';
+  }
+
+  setTimeout(() => {
+    if (!audio.enabled) return;
+    item.audio.volume = 0.75;
+    item.audio.play().catch(() => {});
+
+    item.audio.addEventListener('ended', function onEnd() {
+      item.audio.removeEventListener('ended', onEnd);
+      if (el) el.style.boxShadow = '';
+      setTimeout(() => playNextNarration(), 800);
+    });
+  }, 800);
+}
 
 /* ---- Floating Page Bubbles ---- */
 function spawnPageBubbles() {
