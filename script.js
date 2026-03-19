@@ -664,7 +664,9 @@ function playNextNarration() {
     el.style.opacity = '1';
     el.style.transform = 'translateY(0)';
     playPop();
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const yOffset = -80;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
     el.style.transition = 'box-shadow .5s ease, opacity 0.6s ease, transform 0.6s ease';
     el.style.boxShadow = '0 0 0 3px #4a8c2a, 0 6px 25px rgba(74,140,42,.15)';
   }
