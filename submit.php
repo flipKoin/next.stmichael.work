@@ -73,7 +73,7 @@ unset($logData['website']); // Don't log honeypot
 @file_put_contents(__DIR__ . '/submissions.jsonl', json_encode($logData) . "\n", FILE_APPEND | LOCK_EX);
 
 // ── Brevo API ───────────────────────────────────────────────
-define('BREVO_API_KEY', 'BREVO_KEY_REDACTED');
+require __DIR__ . '/config.php';
 
 function brevoRequest($endpoint, $method = 'GET', $body = null) {
     $url = 'https://api.brevo.com' . $endpoint;
