@@ -294,6 +294,33 @@ function startJingleLyrics() {
 }
 
 /* ---- Splash Dismiss ---- */
+let jingleSkipped = false;
+
+function skipToPage() {
+  if (jingleSkipped) return;
+  jingleSkipped = true;
+  const splash = document.getElementById('splash');
+  const jingle = document.getElementById('jingle');
+  jingle.pause();
+  jingleTimers.forEach(t => clearTimeout(t));
+  const storyEl = document.getElementById('splashStory');
+  if (storyEl) storyEl.classList.remove('visible');
+  splash.classList.add('fade-out');
+  audio.enable();
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    app.style.opacity = '0';
+    app.style.transition = 'opacity 0.8s ease';
+    requestAnimationFrame(() => { app.style.opacity = '1'; });
+    initForm();
+    spawnPageBubbles();
+    initScrollAnimations();
+    setTimeout(() => startNarrationTour(), 400);
+  }, 400);
+}
+
 function dismissSplash() {
   const splash = document.getElementById('splash');
   const jingle = document.getElementById('jingle');
@@ -301,6 +328,23 @@ function dismissSplash() {
   if (splashContent) splashContent.style.display = 'none';
 
   audio.init();
+  jingleSkipped = false;
+
+  // Double-tap logo to skip jingle
+  let tapCount = 0;
+  const logo = splash.querySelector('.splash-logo') || splash.querySelector('img');
+  if (logo) {
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', function onTap(e) {
+      e.stopPropagation();
+      tapCount++;
+      if (tapCount >= 2) {
+        logo.removeEventListener('click', onTap);
+        skipToPage();
+      }
+      setTimeout(() => { tapCount = 0; }, 500);
+    });
+  }
 
   jingle.volume = 0.5;
   jingle.play().catch(() => {});
@@ -309,11 +353,13 @@ function dismissSplash() {
 
   jingle.addEventListener('ended', function onJingleEnd() {
     jingle.removeEventListener('ended', onJingleEnd);
+    if (jingleSkipped) return;
+    jingleSkipped = true;
     jingleTimers.forEach(t => clearTimeout(t));
     const storyEl = document.getElementById('splashStory');
     if (storyEl) storyEl.classList.remove('visible');
 
-    // Quick transition — no long pause
+    // Quick transition
     splash.classList.add('fade-out');
     audio.enable();
     setTimeout(() => {
@@ -627,14 +673,31 @@ function playNextNarration() {
   }
 
   setTimeout(() => {
-    if (!audio.enabled) return;
+    if (!audio.enabled || !narrationRunning) return;
     item.audio.volume = 0.75;
-    item.audio.play().catch(() => {});
+    item.audio.play().catch(() => {
+      // If play fails, skip to next
+      if (el) el.style.boxShadow = '';
+      setTimeout(() => playNextNarration(), 300);
+    });
 
+    // Move to next when ended
     item.audio.addEventListener('ended', function onEnd() {
       item.audio.removeEventListener('ended', onEnd);
       if (el) el.style.boxShadow = '';
       setTimeout(() => playNextNarration(), 500);
+    });
+
+    // Fallback: if audio hasn't ended after its duration + 2s, force next
+    item.audio.addEventListener('loadedmetadata', function onMeta() {
+      item.audio.removeEventListener('loadedmetadata', onMeta);
+      const maxWait = (item.audio.duration + 2) * 1000;
+      setTimeout(() => {
+        if (narrationRunning && narrationIndex === narrationQueue.indexOf(item)) {
+          if (el) el.style.boxShadow = '';
+          playNextNarration();
+        }
+      }, maxWait);
     });
   }, 500);
 }
