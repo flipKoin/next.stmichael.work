@@ -53,6 +53,12 @@ function toggleMute() {
   if (audio.enabled) {
     audio.enabled = false;
     audio.stop();
+    // Stop narration tour
+    narrationRunning = false;
+    narrationQueue.forEach(item => { item.audio.pause(); item.audio.currentTime = 0; });
+    bgMusic.pause(); bgMusic.currentTime = 0;
+    // Clear highlights
+    document.querySelectorAll('.scrubbypts, .hero, .whats-included, .how-it-works, .plans, .property-manager, .consultation').forEach(el => el.style.boxShadow = '');
     btn.textContent = '\u{1F507}';
     btn.style.opacity = '.4';
   } else {
@@ -553,13 +559,13 @@ bgMusic.volume = 0.04;
 const popSound = new Audio('audio/pop.mp3');
 
 const narrationQueue = [
-  { audio: new Audio('audio/hero.mp3'), target: 'hero' },
-  { audio: new Audio('audio/whatwedo.mp3'), target: 'whats-included' },
-  { audio: new Audio('audio/whysubscribe.mp3'), target: 'how-it-works' },
-  { audio: new Audio('audio/scrubbypts.mp3'), target: 'scrubbypts' },
-  { audio: new Audio('audio/plans.mp3'), target: 'plans' },
-  { audio: new Audio('audio/property.mp3'), target: 'property-manager' },
-  { audio: new Audio('audio/cta.mp3'), target: 'consultation' },
+  { audio: new Audio('audio/hero.mp3?v=3'), target: 'hero' },
+  { audio: new Audio('audio/whatwedo.mp3?v=3'), target: 'whats-included' },
+  { audio: new Audio('audio/whysubscribe.mp3?v=3'), target: 'how-it-works' },
+  { audio: new Audio('audio/scrubbypts.mp3?v=3'), target: 'scrubbypts' },
+  { audio: new Audio('audio/plans.mp3?v=3'), target: 'plans' },
+  { audio: new Audio('audio/property.mp3?v=3'), target: 'property-manager' },
+  { audio: new Audio('audio/cta.mp3?v=3'), target: 'consultation' },
 ];
 
 let narrationIndex = -1;
