@@ -607,6 +607,7 @@ const popSound = new Audio('audio/pop.mp3');
 const narrationQueue = [
   { audio: new Audio('audio/hero.mp3?v=3'), target: 'hero' },
   { audio: new Audio('audio/whatwedo.mp3?v=3'), target: 'whats-included' },
+  { audio: new Audio('audio/convenience.mp3?v=1'), target: 'convenience' },
   { audio: new Audio('audio/whysubscribe.mp3?v=3'), target: 'how-it-works' },
   { audio: new Audio('audio/scrubbypts.mp3?v=3'), target: 'scrubbypts' },
   { audio: new Audio('audio/plan-weekly.mp3?v=1'), target: 'plan-weekly' },
