@@ -556,6 +556,7 @@ const narrationQueue = [
   { audio: new Audio('audio/hero.mp3'), target: 'hero' },
   { audio: new Audio('audio/whatwedo.mp3'), target: 'whats-included' },
   { audio: new Audio('audio/whysubscribe.mp3'), target: 'how-it-works' },
+  { audio: new Audio('audio/scrubbypts.mp3'), target: 'scrubbypts' },
   { audio: new Audio('audio/plans.mp3'), target: 'plans' },
   { audio: new Audio('audio/property.mp3'), target: 'property-manager' },
   { audio: new Audio('audio/cta.mp3'), target: 'consultation' },

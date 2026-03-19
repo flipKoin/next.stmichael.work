@@ -1301,3 +1301,116 @@ a:hover { color: var(--green-dark); }
   80%  { opacity: 0.1; }
   100% { transform: translateY(-110vh) translateX(-10px) scale(0.6); opacity: 0; }
 }
+
+/* ============================================================
+   SCRUBBYPTS LOYALTY SECTION
+   ============================================================ */
+.scrubbypts {
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #f4faf0 0%, #fff 100%);
+}
+
+.scrubby-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.scrubby-card {
+  background: #fff;
+  border: 2px solid var(--green-light);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.scrubby-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(74,140,42,.15);
+}
+
+.scrubby-card.featured {
+  border-color: var(--green);
+  box-shadow: 0 4px 20px rgba(74,140,42,.15);
+  transform: scale(1.05);
+}
+
+.scrubby-icon {
+  font-size: 2.5rem;
+  margin-bottom: .75rem;
+}
+
+.scrubby-plan {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: .5rem;
+}
+
+.scrubby-pts {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: .5rem;
+}
+
+.scrubby-pts span {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.scrubby-earn {
+  font-size: .82rem;
+  color: var(--gray-600);
+  font-style: italic;
+}
+
+.scrubby-redeem {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--green-dark);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.scrubby-redeem-badge {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c9a227, #e8c84a);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(201,162,39,.4);
+}
+
+.scrubby-redeem-text {
+  color: rgba(255,255,255,.9);
+  font-size: .85rem;
+  line-height: 1.6;
+}
+
+.scrubby-redeem-text strong {
+  color: #fff;
+  display: block;
+  margin-bottom: .25rem;
+}
+
+@media (max-width: 768px) {
+  .scrubby-grid { grid-template-columns: 1fr; max-width: 320px; margin: 2rem auto; }
+  .scrubby-card.featured { transform: scale(1); }
+  .scrubby-redeem { flex-direction: column; text-align: center; }
+}
