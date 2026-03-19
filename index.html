@@ -149,36 +149,65 @@
       </div>
     </section>
 
-    <!-- ScrubbyPts Loyalty -->
+    <!-- Scrubby Points Loyalty -->
     <section class="scrubbypts" id="scrubbypts">
       <div class="section-inner">
-        <h2>Earn ScrubbyPts With Every Visit</h2>
-        <p class="section-desc">The more we clean, the more you earn. Redeem for free extras anytime.</p>
-        <div class="scrubby-grid">
-          <div class="scrubby-card">
-            <div class="scrubby-icon">&#128171;</div>
-            <div class="scrubby-plan">Weekly</div>
-            <div class="scrubby-pts">2 pts<span>/visit</span></div>
-            <div class="scrubby-earn">Free extra every ~3 weeks</div>
+        <h2>Earn Scrubby Points</h2>
+        <p class="section-desc">Every visit earns points. Points unlock free premium services — things that normally cost extra.</p>
+
+        <!-- Animated progress visual -->
+        <div class="scrubby-progress-demo" id="scrubbyDemo">
+          <div class="scrubby-bar-wrap">
+            <div class="scrubby-bar-label">Your Points</div>
+            <div class="scrubby-bar">
+              <div class="scrubby-bar-fill" id="scrubbyFill" style="width:0%"></div>
+              <div class="scrubby-bar-markers">
+                <span style="left:20%">1</span>
+                <span style="left:40%">2</span>
+                <span style="left:60%">3</span>
+                <span style="left:80%">4</span>
+                <span style="left:100%">5</span>
+              </div>
+            </div>
+            <div class="scrubby-bar-reward" id="scrubbyRewardTag">&#127881; Free Extra Unlocked!</div>
           </div>
-          <div class="scrubby-card featured">
-            <div class="scrubby-icon">&#11088;</div>
-            <div class="scrubby-plan">Bi-Weekly</div>
-            <div class="scrubby-pts">1.5 pts<span>/visit</span></div>
-            <div class="scrubby-earn">Free extra every ~2 months</div>
-          </div>
-          <div class="scrubby-card">
-            <div class="scrubby-icon">&#128161;</div>
-            <div class="scrubby-plan">Monthly</div>
-            <div class="scrubby-pts">1 pt<span>/visit</span></div>
-            <div class="scrubby-earn">Free extra every ~5 months</div>
+
+          <!-- Reward icons that pop in -->
+          <div class="scrubby-rewards-visual" id="scrubbyRewards">
+            <div class="scrubby-reward-item" data-delay="0">&#129529;<span>Window Washing</span></div>
+            <div class="scrubby-reward-item" data-delay="1">&#127859;<span>Appliance Deep Clean</span></div>
+            <div class="scrubby-reward-item" data-delay="2">&#129531;<span>Laundry Room</span></div>
+            <div class="scrubby-reward-item" data-delay="3">&#127793;<span>Plant Dusting</span></div>
+            <div class="scrubby-reward-item" data-delay="4">&#128085;<span>Closet Interior</span></div>
+            <div class="scrubby-reward-item" data-delay="5">&#129529;<span>Wall Washing</span></div>
           </div>
         </div>
-        <div class="scrubby-redeem">
-          <div class="scrubby-redeem-badge">5 pts</div>
-          <div class="scrubby-redeem-text">
-            <strong>Redeem for any free extra:</strong>
-            Window washing &bull; Laundry room &bull; Appliance deep clean &bull; Plant dusting &bull; Closet interior &bull; Wall washing &bull; Cupboard interior
+
+        <!-- Plan earn rates -->
+        <div class="scrubby-grid">
+          <div class="scrubby-card">
+            <div class="scrubby-plan">Weekly</div>
+            <div class="scrubby-pts">2<span> pts/visit</span></div>
+            <div class="scrubby-earn">Free extra every ~3 weeks</div>
+            <div class="scrubby-dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot empty"></span><span class="dot empty"></span>
+            </div>
+          </div>
+          <div class="scrubby-card featured">
+            <div class="scrubby-plan">Bi-Weekly</div>
+            <div class="scrubby-pts">1.5<span> pts/visit</span></div>
+            <div class="scrubby-earn">Free extra every ~2 months</div>
+            <div class="scrubby-dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot empty"></span><span class="dot empty"></span><span class="dot empty"></span>
+            </div>
+          </div>
+          <div class="scrubby-card">
+            <div class="scrubby-plan">Monthly</div>
+            <div class="scrubby-pts">1<span> pt/visit</span></div>
+            <div class="scrubby-earn">Free extra every ~5 months</div>
+            <div class="scrubby-dots">
+              <span class="dot filled"></span><span class="dot empty"></span><span class="dot empty"></span><span class="dot empty"></span><span class="dot empty"></span>
+            </div>
           </div>
         </div>
       </div>

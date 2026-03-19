@@ -602,6 +602,9 @@ function playNextNarration() {
   const item = narrationQueue[narrationIndex];
   const el = document.getElementById(item.target);
 
+  // Trigger section-specific animations
+  if (item.target === 'scrubbypts') animateScrubbyPts();
+
   // Make section visible first
   if (el) {
     el.style.opacity = '1';
@@ -687,4 +690,34 @@ function initScrollAnimations() {
     hero.style.opacity = '1';
     hero.style.transform = 'translateY(0)';
   }
+}
+
+/* ---- Scrubby Points Animation ---- */
+function animateScrubbyPts() {
+  const fill = document.getElementById('scrubbyFill');
+  const tag = document.getElementById('scrubbyRewardTag');
+  const rewards = document.querySelectorAll('.scrubby-reward-item');
+
+  if (!fill) return;
+
+  // Reset
+  fill.style.width = '0%';
+  tag.classList.remove('visible');
+  rewards.forEach(r => r.classList.remove('visible'));
+
+  // Animate progress bar filling over 3 seconds
+  setTimeout(() => { fill.style.width = '20%'; }, 300);
+  setTimeout(() => { fill.style.width = '40%'; }, 800);
+  setTimeout(() => { fill.style.width = '60%'; }, 1300);
+  setTimeout(() => { fill.style.width = '80%'; }, 1800);
+  setTimeout(() => {
+    fill.style.width = '100%';
+    // Show reward tag
+    setTimeout(() => tag.classList.add('visible'), 500);
+  }, 2300);
+
+  // Pop in reward items one by one
+  rewards.forEach((r, i) => {
+    setTimeout(() => r.classList.add('visible'), 3000 + i * 400);
+  });
 }
