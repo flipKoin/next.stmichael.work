@@ -537,24 +537,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ---- Scroll-Triggered Narration ---- */
-  const bgMusic = new Audio('audio/bg-music.mp3');
+  /* ---- Sequential Narration Tour ---- */
+  const bgMusic = new Audio('audio/StMichaelbg.mp3');
   bgMusic.loop = true;
   bgMusic.volume = 0.08;
   const popSound = new Audio('audio/pop.mp3');
 
-  const sectionAudio = {
-    'hero': new Audio('audio/hero.mp3'),
-    'what-we-do': new Audio('audio/whatwedo.mp3'),
-    'why-subscribe': new Audio('audio/whysubscribe.mp3'),
-    'plans': new Audio('audio/plans.mp3'),
-    'property-managers': new Audio('audio/property.mp3'),
-    'consultation': new Audio('audio/cta.mp3'),
-  };
+  // Ordered narration sequence — plays one after another
+  const narrationQueue = [
+    { audio: new Audio('audio/hero.mp3'), target: 'hero' },
+    { audio: new Audio('audio/whatwedo.mp3'), target: 'whats-included' },
+    { audio: new Audio('audio/whysubscribe.mp3'), target: 'how-it-works' },
+    { audio: new Audio('audio/plans.mp3'), target: 'plans' },
+    { audio: new Audio('audio/property.mp3'), target: 'property-manager' },
+    { audio: new Audio('audio/cta.mp3'), target: 'consultation' },
+  ];
 
-  let currentNarration = null;
-  let playedSections = new Set();
-  let bgStarted = false;
+  let narrationIndex = -1;
+  let narrationRunning = false;
 
   function playPop() {
     if (!audio.enabled) return;
@@ -564,47 +564,78 @@ document.addEventListener('DOMContentLoaded', () => {
     p.play().catch(() => {});
   }
 
-  function narrateSection(id) {
-    if (!audio.enabled || playedSections.has(id)) return;
-    const a = sectionAudio[id];
-    if (!a) return;
-
-    playedSections.add(id);
-
-    // Stop current narration
-    if (currentNarration) {
-      currentNarration.pause();
-      currentNarration.currentTime = 0;
-    }
-
-    // Start bg music on first narration
-    if (!bgStarted) {
-      bgStarted = true;
-      bgMusic.play().catch(() => {});
-    }
-
-    playPop();
-    a.volume = 0.7;
-    a.play().catch(() => {});
-    currentNarration = a;
+  function startNarrationTour() {
+    if (narrationRunning || !audio.enabled) return;
+    narrationRunning = true;
+    bgMusic.play().catch(() => {});
+    narrationIndex = -1;
+    playNextNarration();
   }
 
-  // Intersection Observer for scroll-triggered narration
-  const narrationObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id || entry.target.dataset.narrate;
-        if (id) narrateSection(id);
-      }
-    });
-  }, { threshold: 0.3 });
+  function playNextNarration() {
+    narrationIndex++;
+    if (narrationIndex >= narrationQueue.length || !audio.enabled) {
+      // Tour complete — fade out bg music
+      narrationRunning = false;
+      let vol = bgMusic.volume;
+      const fade = setInterval(() => {
+        vol -= 0.01;
+        if (vol <= 0) {
+          clearInterval(fade);
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+        } else {
+          bgMusic.volume = vol;
+        }
+      }, 100);
+      return;
+    }
 
-  // Observe sections after DOM ready
-  document.querySelectorAll('[data-narrate]').forEach(el => {
-    narrationObserver.observe(el);
-  });
-  ['hero', 'plans', 'consultation'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) narrationObserver.observe(el);
-  });
+    const item = narrationQueue[narrationIndex];
+    const el = document.getElementById(item.target);
+
+    // Scroll to section
+    if (el) {
+      playPop();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Highlight current section
+      el.style.transition = 'box-shadow .5s ease';
+      el.style.boxShadow = '0 0 0 3px #4a8c2a, 0 6px 25px rgba(74,140,42,.15)';
+    }
+
+    // Clear previous section highlight
+    if (narrationIndex > 0) {
+      const prev = document.getElementById(narrationQueue[narrationIndex - 1].target);
+      if (prev) prev.style.boxShadow = '';
+    }
+
+    // Play narration after short delay for scroll
+    setTimeout(() => {
+      if (!audio.enabled) return;
+      item.audio.volume = 0.75;
+      item.audio.play().catch(() => {});
+
+      // When this narration ends, play the next
+      item.audio.addEventListener('ended', function onEnd() {
+        item.audio.removeEventListener('ended', onEnd);
+        // Clear highlight
+        if (el) el.style.boxShadow = '';
+        // Small pause between sections
+        setTimeout(() => playNextNarration(), 800);
+      });
+    }, 600);
+  }
+
+  // Start narration tour after splash dismisses (triggered from dismissSplash)
+  // Hook into the existing splash dismiss
+  const origDismiss = window.dismissSplash;
+  if (origDismiss) {
+    window.dismissSplash = function() {
+      origDismiss();
+      // Start narration after splash animations complete
+      setTimeout(() => {
+        if (audio.enabled) startNarrationTour();
+      }, 1500);
+    };
+  }
 });
