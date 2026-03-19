@@ -33,6 +33,8 @@ function resetInactivityTimer() {
     if (btn) { btn.textContent = '\u{1F50A}'; btn.style.opacity = '.7'; }
   }
   inactivityTimer = setTimeout(() => {
+    // Don't auto-mute while narration tour is running
+    if (narrationRunning) return;
     if (audio.enabled) {
       audio.autoMuted = true;
       audio.enabled = false;
