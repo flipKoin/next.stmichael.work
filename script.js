@@ -672,32 +672,26 @@ function playNextNarration() {
     if (prev) prev.style.boxShadow = '';
   }
 
+  const thisIdx = narrationIndex;
+  let advanced = false;
+  function advanceOnce() {
+    if (advanced) return;
+    advanced = true;
+    if (el) el.style.boxShadow = '';
+    setTimeout(() => playNextNarration(), 500);
+  }
+
   setTimeout(() => {
     if (!audio.enabled || !narrationRunning) return;
     item.audio.volume = 0.75;
-    item.audio.play().catch(() => {
-      // If play fails, skip to next
-      if (el) el.style.boxShadow = '';
-      setTimeout(() => playNextNarration(), 300);
-    });
-
-    // Move to next when ended
-    item.audio.addEventListener('ended', function onEnd() {
-      item.audio.removeEventListener('ended', onEnd);
-      if (el) el.style.boxShadow = '';
-      setTimeout(() => playNextNarration(), 500);
-    });
-
-    // Fallback: if audio hasn't ended after its duration + 2s, force next
-    item.audio.addEventListener('loadedmetadata', function onMeta() {
-      item.audio.removeEventListener('loadedmetadata', onMeta);
-      const maxWait = (item.audio.duration + 2) * 1000;
-      setTimeout(() => {
-        if (narrationRunning && narrationIndex === narrationQueue.indexOf(item)) {
-          if (el) el.style.boxShadow = '';
-          playNextNarration();
-        }
-      }, maxWait);
+    item.audio.play().then(() => {
+      // Ended → advance
+      item.audio.addEventListener('ended', advanceOnce, { once: true });
+      // Fallback timeout: 30s max per narration
+      setTimeout(() => { if (narrationIndex === thisIdx) advanceOnce(); }, 30000);
+    }).catch(() => {
+      // Play failed → skip
+      advanceOnce();
     });
   }, 500);
 }
